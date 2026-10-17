@@ -46,7 +46,7 @@ class CNMC:
                 async with aiohttp.ClientSession() as session:
                     energy_file = None
                     payload = {'file': f"data:text/csv;base64,{encoded}"}
-                    async with session.post(CNMC.upload_file_url, headers=CNMC.getHeaders(), json=payload, ssl=False) as resp:
+                    async with session.post(CNMC.upload_file_url, headers=CNMC.getHeaders(), json=payload) as resp:
                         response = await resp.text()
                         if response == CNMC.OLD_FILE:
                             billing_period['total_cost'] = '-'
@@ -74,7 +74,7 @@ class CNMC:
                             end_date=billing_period['end_date'].isoformat(),
                             start_timestamp=int(time.mktime((billing_period['start_date'] - datetime.timedelta(days=1)).timetuple())) * 1000,
                             end_timestamp=int(time.mktime(billing_period['end_date'].timetuple())) * 1000)
-                        async with session.get(url, ssl=False) as resp:
+                        async with session.get(url) as resp:
                             bill = await resp.json()
                             if 'graficoGastoTotalActual' in bill:
                                 billing_period['start_date'] = datetime.datetime.strptime(bill['graficaConsumoDiario']['consumosDiarios'][0]['fecha'], '%d/%m/%Y').date()

@@ -26,7 +26,7 @@ class REE:
         url = REE.url_indicators.format(start_date=start_date.strftime('%Y-%m-%d'), end_date=end_date.strftime('%Y-%m-%dT23%%3A00%%3A00'))
         _LOGGER.info(f"REE.get_prices(start_date={start_date.isoformat()}, end_date={end_date.isoformat()})")
         async with aiohttp.ClientSession() as session:
-            async with session.get(url, headers=REE.getHeaders(), ssl=False) as resp:
+            async with session.get(url, headers=REE.getHeaders()) as resp:
                 if resp.status == 200:
                     response = await resp.json()
         if response is not None:

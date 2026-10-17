@@ -91,7 +91,6 @@ class UFD:
             async with session.get(
                 f"{UFD._WEB_APP_URL}/",
                 headers={"user-agent": UFD.getUserAgent()},
-                ssl=False,
                 timeout=timeout,
             ) as resp:
                 if resp.status != 200:
@@ -112,7 +111,6 @@ class UFD:
             async with session.get(
                 js_url,
                 headers={"user-agent": UFD.getUserAgent()},
-                ssl=False,
                 timeout=timeout,
             ) as resp:
                 if resp.status != 200:
@@ -236,7 +234,7 @@ class UFD:
                 headers['client_id'] = cognito_id
                 headers['client_secret'] = cognito_secret
             payload = {'user': UFD.User, 'password': UFD.Password}
-            async with session.post(UFD.login_url, headers=headers, json=payload, ssl=False) as resp:
+            async with session.post(UFD.login_url, headers=headers, json=payload) as resp:
                 response = await UFD.checkResponse(resp)
                 if response is not None:
                     UFD.userId = response['user']['userId']
@@ -259,14 +257,14 @@ class UFD:
         if headers is None:
             return None
         response = None
-        async with session.get(url, headers=headers, ssl=False) as resp:
+        async with session.get(url, headers=headers) as resp:
             if resp.status == 401:
                 _LOGGER.debug(f"Unauthorized: {resp.status}")
                 UFD.token = ''
                 headers = await UFD.getHeaders(session)
                 if headers is None:
                     return None
-                async with session.get(url, headers=headers, ssl=False) as resp:
+                async with session.get(url, headers=headers) as resp:
                     response = await UFD.checkResponse(resp)
             else:
                 response = await UFD.checkResponse(resp)
