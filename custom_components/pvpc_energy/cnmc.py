@@ -39,7 +39,7 @@ class CNMC:
                 for timestamp in timestamps:
                     date = datetime.datetime.fromtimestamp(timestamp)
                     total_consumption += consumptions[timestamp]
-                    cnmc_consumptions += f"{cups};{date.strftime('%d/%m/%Y')};{date.hour + 1};{('%.3f' % consumptions[timestamp]).replace('.',',')};R\r\n"
+                    cnmc_consumptions += f";{date.strftime('%d/%m/%Y')};{date.hour + 1};{('%.3f' % consumptions[timestamp]).replace('.',',')};R\r\n"
                 encoded = base64.b64encode(bytes(cnmc_consumptions, 'utf-8')).decode('utf-8')
                 billing_period['total_consumption'] = total_consumption
 
