@@ -23,7 +23,14 @@ class PvpcEnergyConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_user(self, user_input: Optional[Dict[str, Any]] = None):
         if user_input is not None:
-            _LOGGER.debug(f"pvpc_energy: async_step_user, user_input={user_input}")
+            _LOGGER.debug(
+                "pvpc_energy: async_step_user, user_input=%s",
+                {
+                    key: value
+                    for key, value in user_input.items()
+                    if key != "ufd_password"
+                },
+            )
 
             UFD.User = user_input['ufd_login']
             UFD.Password = user_input['ufd_password']

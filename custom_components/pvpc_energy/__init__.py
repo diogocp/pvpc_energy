@@ -13,7 +13,7 @@ import logging
 _LOGGER = logging.getLogger(__name__)
 
 async def async_setup_entry(hass, entry) -> bool:
-    _LOGGER.debug(f"pvpc_energy: async_setup_entry, entry_id={entry.entry_id}, hass_data={dict(entry.data)}")
+    _LOGGER.debug(f"pvpc_energy: async_setup_entry, entry_id={entry.entry_id}")
     hass_data = dict(entry.data)
     PvpcCoordinator.set_config(hass_data)
 
@@ -43,11 +43,11 @@ def setup_hass_services(hass) -> None:
     async_track_time_change(hass, async_handle_random_import_energy_data, hour=6, minute=30, second=0)
 
 async def options_update_listener(hass, config_entry):
-    _LOGGER.debug(f"pvpc_energy: options_update_listener, config_entry={config_entry}")
+    _LOGGER.debug(f"pvpc_energy: options_update_listener, entry_id={config_entry.entry_id}")
     await hass.config_entries.async_reload(config_entry.entry_id)
 
 async def async_unload_entry(hass, entry) -> bool:
-    _LOGGER.debug(f"pvpc_energy: async_unload_entry, entry_id={entry.entry_id}, hass_data={dict(entry.data)}")
+    _LOGGER.debug(f"pvpc_energy: async_unload_entry, entry_id={entry.entry_id}")
     entry_data = hass.data[DOMAIN].pop(entry.entry_id)
     entry_data["unsub_options_update_listener"]()
     await UFD.closeSession()

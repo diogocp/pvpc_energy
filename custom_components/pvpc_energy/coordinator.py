@@ -45,7 +45,7 @@ class PvpcCoordinator:
 
 
     def set_config(config):
-        _LOGGER.debug(f"START - set_config(config={config})")
+        _LOGGER.debug("START - set_config")
         PvpcCoordinator.ufd_login = config['ufd_login']
         PvpcCoordinator.ufd_password = config['ufd_password']
         PvpcCoordinator.cups = config['cups']
